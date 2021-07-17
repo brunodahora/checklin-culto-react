@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
@@ -11,6 +10,12 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root"),
 );
+
+if (process.env.NODE_ENV !== "production") {
+  // eslint-disable-next-line
+  const axe = require("@axe-core/react");
+  axe(React, ReactDOM, 1000);
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
