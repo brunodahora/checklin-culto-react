@@ -3,7 +3,8 @@ import React from "react";
 import { Cultos as CultosType } from "../../index.d";
 // import { buscaCultos } from "../../queries/api";
 
-import { Container, CultoContainer } from "./styles";
+import { MainContainer } from "../styles";
+import { CultoContainer } from "./styles";
 
 export default function Cultos(): React.ReactElement {
   // const { isLoading, error, data, isFetching } = useQuery<CultosType, Error>("cultos", buscaCultos);
@@ -18,11 +19,11 @@ export default function Cultos(): React.ReactElement {
   const cultos: CultosType = { mensagem: { "1": "teste", "2": "teste 2" } };
 
   return (
-    <Container>
+    <MainContainer>
       <h1>Cultos</h1>
       {Object.keys(cultos.mensagem).map((key) => (
         <CultoContainer href={`/cultos/${key}`}>{cultos.mensagem[key]}</CultoContainer>
       ))}
-    </Container>
+    </MainContainer>
   );
 }

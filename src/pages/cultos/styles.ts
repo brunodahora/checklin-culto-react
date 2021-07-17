@@ -1,11 +1,5 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-family: Arial, Helvetica, sans-serif;
-`;
-
 export const CultoContainer = styled.a`
   background-color: white;
   color: black;
