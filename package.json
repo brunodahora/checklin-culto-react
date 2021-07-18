@@ -1,6 +1,6 @@
 {
   "name": "checkin-culto",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "dependencies": {
     "@axe-core/react": "^4.2.2",

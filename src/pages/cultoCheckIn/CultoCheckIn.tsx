@@ -26,6 +26,12 @@ const StyledLink = styled(Link)`
   left: 16px;
 `;
 
+const StyledDiv = styled.div`
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+`;
+
 export default function CultoCheckIn(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const { search } = useLocation();
@@ -161,7 +167,7 @@ export default function CultoCheckIn(): React.ReactElement {
         {isCheckingVoucher && !result && <CircularProgress color="primary" size={64} />}
       </Box>
       {!result && (
-        <>
+        <StyledDiv>
           <Box mb={2}>
             <TextField
               label="Preencha este campo para pesquisar por CPF"
@@ -180,10 +186,10 @@ export default function CultoCheckIn(): React.ReactElement {
               fullWidth
             />
           </Box>
-          <Button variant="contained" color="primary" onClick={checkCpf}>
+          <Button variant="contained" color="primary" onClick={checkCpf} size="large">
             Pesquisar
           </Button>
-        </>
+        </StyledDiv>
       )}
     </Box>
   );

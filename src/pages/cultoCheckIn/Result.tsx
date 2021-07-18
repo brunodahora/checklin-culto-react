@@ -13,20 +13,21 @@ type Props = {
 const StyledTypography = styled(Typography)`
   width: 80%;
   margin: 16px 0 !important;
+  font-size: 2rem !important;
 `;
 
 const getIcon = (result: string) => {
-  if (result.toLowerCase().includes("confirmado")) return <CheckCircleOutlineIcon fontSize="large" />;
-  if (result.toLowerCase().includes("realizou")) return <ErrorOutlineIcon fontSize="large" />;
-  return <HighlightOffIcon fontSize="large" />;
+  if (result.toLowerCase().includes("confirmado")) return <CheckCircleOutlineIcon style={{ fontSize: "4rem" }} />;
+  if (result.toLowerCase().includes("realizou")) return <ErrorOutlineIcon style={{ fontSize: "4rem" }} />;
+  return <HighlightOffIcon style={{ fontSize: "4rem" }} />;
 };
 
 export default function Result({ result, reset }: Props): React.ReactElement {
   return (
     <>
       {getIcon(result)}
-      <StyledTypography variant="body1">{result}</StyledTypography>
-      <Button variant="outlined" color="inherit" onClick={reset}>
+      <StyledTypography variant="h5">{result}</StyledTypography>
+      <Button variant="outlined" color="inherit" onClick={reset} size="large">
         Novo check-in
       </Button>
     </>
