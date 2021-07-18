@@ -13,13 +13,13 @@ export default function Cultos(): React.ReactElement {
   // eslint-disable-next-line no-console
   if (error) console.error(`An error has occurred: ${error.message}`);
 
-  // const cultos: CultosType = { mensagem: { "1": "teste", "2": "teste 2" } };
-
   return (
     <Box display="flex" flexDirection="column" flex={1} p={2} height="calc(var(--vh, 1vh) * 100 - 32px)">
-      <Typography variant="h1">Cultos</Typography>
-      <Typography variant="h5" component="h2">
-        Selecione abaixo para qual culto quer fazer check-in
+      <Typography variant="h1" align="center" gutterBottom>
+        Cultos
+      </Typography>
+      <Typography variant="h5" component="h2" align="center" paragraph>
+        Selecione abaixo para qual culto quer fazer o check-in
       </Typography>
       <Box overflow="hidden" flex={1} display="flex" flexDirection="column" mt={2}>
         <CultosList cultos={data} loading={loading} />

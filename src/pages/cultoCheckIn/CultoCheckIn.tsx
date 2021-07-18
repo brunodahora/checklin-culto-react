@@ -123,11 +123,11 @@ export default function CultoCheckIn(): React.ReactElement {
           <StyledLink to="/" aria-label="Voltar">
             <ArrowBackIcon fontSize="large" />
           </StyledLink>
-          <Typography variant="h3" component="h1">
+          <Typography variant="h3" component="h1" gutterBottom>
             Check-in
           </Typography>
         </Box>
-        <Typography variant="subtitle1" component="span">
+        <Typography variant="subtitle1" component="span" paragraph>
           Você irá fazer check-in para o culto
           <br />
           <b>{name || id}</b>
@@ -165,9 +165,14 @@ export default function CultoCheckIn(): React.ReactElement {
           <Box mb={2}>
             <TextField
               label="Preencha este campo para pesquisar por CPF"
+              placeholder="123.456.789-09"
               value={cpf}
               onChange={onChangeCpf}
-              inputProps={{ maxLength: 14, "aria-label": "Preencha este campo para pesquisar por CPF" }}
+              inputProps={{
+                maxLength: 14,
+                "aria-label": "Preencha este campo para pesquisar por CPF",
+                inputmode: "numeric",
+              }}
               variant="outlined"
               error={!!cpfError}
               helperText={cpfError}
