@@ -22,6 +22,11 @@ const StyledCardContent = styled(CardContent)`
   }
 `;
 
+const StyledTypography = styled(Typography)`
+  width: 80%;
+  margin-top: 16px !important;
+`;
+
 type Props = {
   cultos: CultosType | undefined;
   loading?: boolean;
@@ -39,7 +44,7 @@ export default function CultosList({ cultos, loading = false }: Props): React.Re
     return (
       <Box display="flex" flexDirection="column" flex={1} alignItems="center" justifyContent="center" mt={2}>
         <HighlightOffIcon fontSize="large" />
-        <Typography variant="body1">Não existem cultos cadastrados para hoje.</Typography>
+        <StyledTypography variant="body1">Não existem cultos cadastrados para hoje.</StyledTypography>
       </Box>
     );
 

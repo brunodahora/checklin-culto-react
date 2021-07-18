@@ -4,6 +4,7 @@ import styled from "styled-components";
 import QrReader from "react-qr-reader";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { Box, Button, CircularProgress, TextField, Typography } from "@material-ui/core";
+import Result from "./Result";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -34,6 +35,7 @@ export default function CultoCheckIn(): React.ReactElement {
   };
 
   const handleScan = (data: string | null) => {
+    console.log(data);
     if (data) setResult(data);
   };
   // eslint-disable-next-line no-console
@@ -48,6 +50,8 @@ export default function CultoCheckIn(): React.ReactElement {
     setCpf(cpfMask(e.currentTarget.value));
     setCpfError("");
   };
+
+  const reset = () => setResult("");
 
   return (
     <Box display="flex" flexDirection="column" p={2} height="calc(100vh - 32px)">
@@ -66,28 +70,39 @@ export default function CultoCheckIn(): React.ReactElement {
           <b>{name || id}</b>
         </Typography>
       </Box>
-      <Box flex={1} flexDirection="column" alignItems="center" justifyContent="center">
-        {!isCheckingVoucher && (
+      <Box
+        display="flex"
+        flex={1}
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        textAlign="center"
+      >
+        {!isCheckingVoucher && !result && (
           <QrReader delay={300} onError={handleError} onScan={handleScan} style={{ flex: 1, width: "100%" }} />
         )}
-        {isCheckingVoucher && <CircularProgress color="primary" size={64} />}
+        {!isCheckingVoucher && result && <Result result={result} reset={reset} />}
+        {isCheckingVoucher && !result && <CircularProgress color="primary" size={64} />}
       </Box>
-      <p>{result}</p>
-      <Box mb={2}>
-        <TextField
-          label="Preencha este campo para pesquisar por CPF"
-          value={cpf}
-          onChange={onChangeCpf}
-          inputProps={{ maxLength: 14, "aria-label": "Preencha este campo para pesquisar por CPF" }}
-          variant="outlined"
-          error={!!cpfError}
-          helperText={cpfError}
-          fullWidth
-        />
-      </Box>
-      <Button variant="contained" color="primary" onClick={checkCpf}>
-        Pesquisar
-      </Button>
+      {!result && (
+        <>
+          <Box mb={2}>
+            <TextField
+              label="Preencha este campo para pesquisar por CPF"
+              value={cpf}
+              onChange={onChangeCpf}
+              inputProps={{ maxLength: 14, "aria-label": "Preencha este campo para pesquisar por CPF" }}
+              variant="outlined"
+              error={!!cpfError}
+              helperText={cpfError}
+              fullWidth
+            />
+          </Box>
+          <Button variant="contained" color="primary" onClick={checkCpf}>
+            Pesquisar
+          </Button>
+        </>
+      )}
     </Box>
   );
 }
