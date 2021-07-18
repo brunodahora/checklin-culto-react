@@ -1,10 +1,20 @@
 import React, { useState } from "react";
+import { useMutation } from "react-query";
 import { Link, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import QrReader from "react-qr-reader";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { Box, Button, CircularProgress, TextField, Typography } from "@material-ui/core";
 import Result from "./Result";
+import { buscaCpf, registraVoucher } from "../../queries/api";
+
+import {
+  BuscaCpfResponse,
+  BuscaCpfVariables,
+  CheckinResponse,
+  RegistraVoucherVariables,
+  ErrorResponse,
+} from "../../index.d";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -18,10 +28,41 @@ const StyledLink = styled(Link)`
 export default function CultoCheckIn(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const { search } = useLocation();
+
   const [result, setResult] = useState("");
-  const [isCheckingVoucher] = useState(false);
+  const [isCheckingVoucher, setIsCheckingVoucher] = useState(false);
   const [cpfError, setCpfError] = useState("");
   const [cpf, setCpf] = useState("");
+
+  const registraVoucherMutation = useMutation<CheckinResponse, ErrorResponse, RegistraVoucherVariables>(
+    registraVoucher,
+    {
+      onSuccess: (data) => {
+        setResult(data.mensagem);
+        setIsCheckingVoucher(false);
+      },
+      onError: (error) => {
+        // eslint-disable-next-line no-console
+        console.error(error);
+        if (error?.response?.data?.mensagem) setResult(error.response.data.mensagem);
+        setIsCheckingVoucher(false);
+      },
+    },
+  );
+  const buscaCpfMutation = useMutation<BuscaCpfResponse, ErrorResponse, BuscaCpfVariables>(buscaCpf, {
+    onSuccess: (data) => {
+      registraVoucherMutation.mutate({
+        culto_id: id,
+        hash: `${data.mensagem}-${id}`,
+      });
+    },
+    onError: (error) => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      if (error?.response?.data?.mensagem) setResult(error.response.data.mensagem);
+      setIsCheckingVoucher(false);
+    },
+  });
 
   const name = new URLSearchParams(search).get("name");
 
@@ -35,15 +76,27 @@ export default function CultoCheckIn(): React.ReactElement {
   };
 
   const handleScan = (data: string | null) => {
-    console.log(data);
-    if (data) setResult(data);
+    if (data) {
+      setIsCheckingVoucher(true);
+      registraVoucherMutation.mutate({
+        culto_id: id,
+        hash: data,
+      });
+    }
   };
   // eslint-disable-next-line no-console
   const handleError = (err: Error) => console.error(err);
 
   const checkCpf = () => {
-    if (cpf.length < 14) setCpfError("CPF Inválido");
-    console.log("Checking CPF");
+    if (cpf.length < 14) {
+      setCpfError("CPF Inválido");
+      return;
+    }
+    setIsCheckingVoucher(true);
+    buscaCpfMutation.mutate({
+      culto_id: id,
+      cpf,
+    });
   };
 
   const onChangeCpf = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +104,10 @@ export default function CultoCheckIn(): React.ReactElement {
     setCpfError("");
   };
 
-  const reset = () => setResult("");
+  const reset = () => {
+    setResult("");
+    setCpf("");
+  };
 
   return (
     <Box display="flex" flexDirection="column" p={2} height="calc(100vh - 32px)">
@@ -95,6 +151,7 @@ export default function CultoCheckIn(): React.ReactElement {
               variant="outlined"
               error={!!cpfError}
               helperText={cpfError}
+              color="secondary"
               fullWidth
             />
           </Box>

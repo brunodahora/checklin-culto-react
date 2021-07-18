@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Cultos } from "../index.d";
+import { Cultos, BuscaCpfResponse, BuscaCpfVariables, CheckinResponse, RegistraVoucherVariables } from "../index.d";
 
 const getApi = () =>
   axios.create({
@@ -15,12 +15,12 @@ export const buscaCultos = async (): Promise<Cultos> => {
   return data;
 };
 
-export const buscaCpf = async (cultoId: string, cpf: string): Promise<Cultos> => {
-  const { data } = await getApi().get("busca_cpf.php", {
-    params: {
-      culto_id: cultoId,
-      cpf,
-    },
-  });
+export const buscaCpf = async (variables: BuscaCpfVariables): Promise<BuscaCpfResponse> => {
+  const { data } = await getApi().post("/busca_cpf.php", variables);
+  return data;
+};
+
+export const registraVoucher = async (variables: RegistraVoucherVariables): Promise<CheckinResponse> => {
+  const { data } = await getApi().post("/registra_voucher.php", variables);
   return data;
 };
