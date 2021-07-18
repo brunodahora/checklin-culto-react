@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, createTheme, ThemeProvider, responsiveFontSizes } from "@material-ui/core";
+import { red, orange } from "@material-ui/core/colors";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -12,6 +13,14 @@ const queryClient = new QueryClient();
 const theme = createTheme({
   typography: {
     fontFamily: "Roboto",
+  },
+  palette: {
+    primary: {
+      main: red[900],
+    },
+    secondary: {
+      main: orange.A400,
+    },
   },
 });
 

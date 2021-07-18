@@ -3,7 +3,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import QrReader from "react-qr-reader";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { Box, Button, TextField, Typography } from "@material-ui/core";
+import { Box, Button, CircularProgress, TextField, Typography } from "@material-ui/core";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -66,10 +66,11 @@ export default function CultoCheckIn(): React.ReactElement {
           <b>{name || id}</b>
         </Typography>
       </Box>
-      <Box flex={1}>
+      <Box flex={1} flexDirection="column" alignItems="center" justifyContent="center">
         {!isCheckingVoucher && (
           <QrReader delay={300} onError={handleError} onScan={handleScan} style={{ flex: 1, width: "100%" }} />
         )}
+        {isCheckingVoucher && <CircularProgress color="primary" size={64} />}
       </Box>
       <p>{result}</p>
       <Box mb={2}>
@@ -84,7 +85,7 @@ export default function CultoCheckIn(): React.ReactElement {
           fullWidth
         />
       </Box>
-      <Button color="primary" onClick={checkCpf}>
+      <Button variant="contained" color="primary" onClick={checkCpf}>
         Pesquisar
       </Button>
     </Box>
