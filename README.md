@@ -6,7 +6,19 @@ Sistema para controle de check-in em cultos.
 - Permite fazer o check-in com:
   - QR Code
   - CPF
-  
+
+## Como usar
+
+- Para usar você precisa preencher as seguintes env vars:
+```
+REACT_APP_AUTH_USERNAME=
+REACT_APP_AUTH_PASSWORD=
+REACT_APP_ENDPOINT=
+```
+- Você deve instalar as dependências rodando `yarn install`.
+- Para rodar a aplicação use `yarn start`.
+- Para gerar o build de produção use `yarn build`.
+
 ## Tecnologias
 
 Criado utilizando:
