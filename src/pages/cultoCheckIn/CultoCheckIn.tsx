@@ -1,7 +1,18 @@
 import React, { useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
+import styled from "styled-components";
 import QrReader from "react-qr-reader";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  margin-right: 16px;
+  position: absolute;
+  left: 16px;
+`;
 
 export default function CultoCheckIn(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
@@ -41,8 +52,15 @@ export default function CultoCheckIn(): React.ReactElement {
   return (
     <Box display="flex" flexDirection="column" p={2} height="calc(100vh - 32px)">
       <Box p={1} mb={2} textAlign="center">
-        <Typography variant="h1">Check-in</Typography>
-        <Typography variant="subtitle1">
+        <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
+          <StyledLink to="/" aria-label="Voltar">
+            <ArrowBackIcon fontSize="large" />
+          </StyledLink>
+          <Typography variant="h3" component="h1">
+            Check-in
+          </Typography>
+        </Box>
+        <Typography variant="subtitle1" component="span">
           Você irá fazer check-in para o culto
           <br />
           <b>{name || id}</b>

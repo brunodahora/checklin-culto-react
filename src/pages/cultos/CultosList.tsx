@@ -23,7 +23,7 @@ const StyledCardContent = styled(CardContent)`
 `;
 
 type Props = {
-  cultos: CultosType | null;
+  cultos: CultosType | undefined;
   loading?: boolean;
 };
 
