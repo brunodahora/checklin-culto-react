@@ -1,6 +1,7 @@
 {
   "short_name": "Check-in Cultos",
-  "name": "Sistema de Check-in para cultos da PIB",
+  "name": "Check-in Cultos",
+  "description": "Sistema de Check-in para cultos da PIB",
   "icons": [
     {
       "src": "favicon.ico",

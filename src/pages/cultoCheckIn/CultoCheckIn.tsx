@@ -110,7 +110,7 @@ export default function CultoCheckIn(): React.ReactElement {
   };
 
   return (
-    <Box display="flex" flexDirection="column" p={2} height="calc(100vh - 32px)">
+    <Box display="flex" flexDirection="column" p={2} height="calc(var(--vh, 1vh) * 100 - 32px)">
       <Box p={1} mb={2} textAlign="center">
         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
           <StyledLink to="/" aria-label="Voltar">

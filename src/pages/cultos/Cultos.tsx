@@ -16,7 +16,7 @@ export default function Cultos(): React.ReactElement {
   // const cultos: CultosType = { mensagem: { "1": "teste", "2": "teste 2" } };
 
   return (
-    <Box display="flex" flexDirection="column" flex={1} p={2} height="calc(100vh - 32px)">
+    <Box display="flex" flexDirection="column" flex={1} p={2} height="calc(var(--vh, 1vh) * 100 - 32px)">
       <Typography variant="h1">Cultos</Typography>
       <Box overflow="hidden" flex={1} display="flex" flexDirection="column">
         <CultosList cultos={data} loading={loading} />
