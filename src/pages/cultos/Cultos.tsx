@@ -44,11 +44,11 @@ export default function Cultos(): React.ReactElement {
       <Typography variant="h1">Cultos</Typography>
       <ScrollContainer>
         {Object.keys(cultos.mensagem).map((key) => (
-          <Box mb={2}>
+          <Box key={key} mb={2}>
             <Card>
               <StyledCardContent>
                 <StyledLink to={`/cultos/${key}?name=${cultos.mensagem[key]}`}>
-                  <Typography variant="h6">{cultos.mensagem[key]}</Typography>
+                  <Typography variant="button">{cultos.mensagem[key]}</Typography>
                 </StyledLink>
               </StyledCardContent>
             </Card>

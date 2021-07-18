@@ -41,8 +41,9 @@ export default function CultoCheckIn(): React.ReactElement {
   return (
     <Box display="flex" flexDirection="column" p={2} height="calc(100vh - 32px)">
       <Box p={1} mb={2} textAlign="center">
-        <Typography variant="h3">
-          Você irá fazer checkin para o culto
+        <Typography variant="h1">Check-in</Typography>
+        <Typography variant="subtitle1">
+          Você irá fazer check-in para o culto
           <br />
           <b>{name || id}</b>
         </Typography>
@@ -58,7 +59,7 @@ export default function CultoCheckIn(): React.ReactElement {
           label="Preencha este campo para pesquisar por CPF"
           value={cpf}
           onChange={onChangeCpf}
-          inputProps={{ maxlength: 14 }}
+          inputProps={{ maxLength: 14, "aria-label": "Preencha este campo para pesquisar por CPF" }}
           variant="outlined"
           error={!!cpfError}
           helperText={cpfError}

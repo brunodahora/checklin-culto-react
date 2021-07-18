@@ -22,21 +22,23 @@ const StyledContainer = styled(Container)`
 function App(): React.ReactElement {
   return (
     <ThemeProvider theme={responsiveFontSizes(theme)}>
-      <StyledContainer disableGutters>
-        <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
-          <Router>
-            <Switch>
-              <Route path="/cultos/:id">
-                <CultoCheckIn />
-              </Route>
-              <Route path="/">
-                <Cultos />
-              </Route>
-            </Switch>
-          </Router>
-        </QueryClientProvider>
-      </StyledContainer>
+      <main>
+        <StyledContainer disableGutters>
+          <QueryClientProvider client={queryClient}>
+            <ReactQueryDevtools initialIsOpen={false} />
+            <Router>
+              <Switch>
+                <Route path="/cultos/:id">
+                  <CultoCheckIn />
+                </Route>
+                <Route path="/">
+                  <Cultos />
+                </Route>
+              </Switch>
+            </Router>
+          </QueryClientProvider>
+        </StyledContainer>
+      </main>
     </ThemeProvider>
   );
 }
