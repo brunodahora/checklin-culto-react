@@ -3,6 +3,7 @@ import { useMutation } from "react-query";
 import { Link, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import QrReader from "react-qr-reader";
+import { red, green } from "@material-ui/core/colors";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { Box, Button, CircularProgress, TextField, Typography } from "@material-ui/core";
 import Result from "./Result";
@@ -109,6 +110,12 @@ export default function CultoCheckIn(): React.ReactElement {
     setCpf("");
   };
 
+  const getColor = () => {
+    if (!result) return undefined;
+    if (result.toLowerCase().includes("confirmado")) return green[900];
+    return red[900];
+  };
+
   return (
     <Box display="flex" flexDirection="column" p={2} height="calc(var(--vh, 1vh) * 100 - 32px)">
       <Box p={1} mb={2} textAlign="center">
@@ -133,9 +140,22 @@ export default function CultoCheckIn(): React.ReactElement {
         alignItems="center"
         justifyContent="center"
         textAlign="center"
+        color={getColor()}
       >
         {!isCheckingVoucher && !result && (
-          <QrReader delay={300} onError={handleError} onScan={handleScan} style={{ flex: 1, width: "100%" }} />
+          <QrReader
+            delay={300}
+            onError={handleError}
+            onScan={handleScan}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flex: 1,
+              width: "100%",
+              height: "100%",
+            }}
+          />
         )}
         {!isCheckingVoucher && result && <Result result={result} reset={reset} />}
         {isCheckingVoucher && !result && <CircularProgress color="primary" size={64} />}

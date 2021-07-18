@@ -18,7 +18,10 @@ export default function Cultos(): React.ReactElement {
   return (
     <Box display="flex" flexDirection="column" flex={1} p={2} height="calc(var(--vh, 1vh) * 100 - 32px)">
       <Typography variant="h1">Cultos</Typography>
-      <Box overflow="hidden" flex={1} display="flex" flexDirection="column">
+      <Typography variant="h5" component="h2">
+        Selecione abaixo para qual culto quer fazer check-in
+      </Typography>
+      <Box overflow="hidden" flex={1} display="flex" flexDirection="column" mt={2}>
         <CultosList cultos={data} loading={loading} />
       </Box>
     </Box>

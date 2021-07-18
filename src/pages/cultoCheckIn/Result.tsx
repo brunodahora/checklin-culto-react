@@ -26,7 +26,7 @@ export default function Result({ result, reset }: Props): React.ReactElement {
     <>
       {getIcon(result)}
       <StyledTypography variant="body1">{result}</StyledTypography>
-      <Button variant="contained" color="secondary" onClick={reset}>
+      <Button variant="outlined" color="inherit" onClick={reset}>
         Novo check-in
       </Button>
     </>
