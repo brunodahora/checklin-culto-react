@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import QrReader from "react-qr-reader";
-
-import { MainContainer } from "../styles";
-import { TextInput } from "./styles";
+import { Box, Button, TextField, Typography } from "@material-ui/core";
 
 export default function CultoCheckIn(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
+  const { search } = useLocation();
   const [result, setResult] = useState("");
   const [isCheckingVoucher] = useState(false);
+  const [cpfError, setCpfError] = useState("");
   const [cpf, setCpf] = useState("");
+
+  const name = new URLSearchParams(search).get("name");
 
   const cpfMask = (value: string) => {
     return value
@@ -26,19 +28,46 @@ export default function CultoCheckIn(): React.ReactElement {
   // eslint-disable-next-line no-console
   const handleError = (err: Error) => console.error(err);
 
-  const checkCpf = () => console.log("Checking CPF");
+  const checkCpf = () => {
+    if (cpf.length < 14) setCpfError("CPF Inválido");
+    console.log("Checking CPF");
+  };
+
+  const onChangeCpf = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCpf(cpfMask(e.currentTarget.value));
+    setCpfError("");
+  };
 
   return (
-    <MainContainer>
-      <h1>Você irá fazer checkin para o culto {id}</h1>
-      {!isCheckingVoucher && (
-        <QrReader delay={300} onError={handleError} onScan={handleScan} style={{ flex: 1, width: "100%" }} />
-      )}
+    <Box display="flex" flexDirection="column" p={2} height="calc(100vh - 32px)">
+      <Box p={1} mb={2} textAlign="center">
+        <Typography variant="h3">
+          Você irá fazer checkin para o culto
+          <br />
+          <b>{name || id}</b>
+        </Typography>
+      </Box>
+      <Box flex={1}>
+        {!isCheckingVoucher && (
+          <QrReader delay={300} onError={handleError} onScan={handleScan} style={{ flex: 1, width: "100%" }} />
+        )}
+      </Box>
       <p>{result}</p>
-      <TextInput value={cpf} maxLength={14} onChange={(e) => setCpf(cpfMask(e.currentTarget.value))} />
-      <button type="button" onClick={checkCpf}>
-        Pesquisar por CPF
-      </button>
-    </MainContainer>
+      <Box mb={2}>
+        <TextField
+          label="Preencha este campo para pesquisar por CPF"
+          value={cpf}
+          onChange={onChangeCpf}
+          inputProps={{ maxlength: 14 }}
+          variant="outlined"
+          error={!!cpfError}
+          helperText={cpfError}
+          fullWidth
+        />
+      </Box>
+      <Button color="primary" onClick={checkCpf}>
+        Pesquisar
+      </Button>
+    </Box>
   );
 }
