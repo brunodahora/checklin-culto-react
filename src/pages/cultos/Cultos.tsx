@@ -21,7 +21,7 @@ export default function Cultos(): React.ReactElement {
       <Typography variant="h5" component="h2" align="center" paragraph>
         Selecione abaixo para qual culto quer fazer o check-in
       </Typography>
-      <Box overflow="hidden" flex={1} display="flex" flexDirection="column" mt={2}>
+      <Box overflow="auto" flex={1} display="flex" flexDirection="column" mt={2}>
         <CultosList cultos={data} loading={loading} />
       </Box>
     </Box>
