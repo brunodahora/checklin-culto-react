@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import Cultos from "./pages/cultos/Cultos";
 import CultoCheckIn from "./pages/cultoCheckIn/CultoCheckIn";
 
 const queryClient = new QueryClient();
@@ -37,11 +36,8 @@ function App(): React.ReactElement {
             <ReactQueryDevtools initialIsOpen={false} />
             <Router>
               <Switch>
-                <Route path="/cultos/:id">
-                  <CultoCheckIn />
-                </Route>
                 <Route path="/">
-                  <Cultos />
+                  <CultoCheckIn />
                 </Route>
               </Switch>
             </Router>

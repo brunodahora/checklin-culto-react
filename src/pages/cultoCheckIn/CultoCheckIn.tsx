@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import QrReader from "react-qr-reader";
 import { red, green } from "@material-ui/core/colors";
@@ -34,8 +34,7 @@ const StyledCpfContainer = styled.div`
 `;
 
 export default function CultoCheckIn(): React.ReactElement {
-  const { id } = useParams<{ id: string }>();
-  const { search } = useLocation();
+  const id = "262";
 
   const [result, setResult] = useState("");
   const [isCheckingVoucher, setIsCheckingVoucher] = useState(false);
@@ -72,7 +71,7 @@ export default function CultoCheckIn(): React.ReactElement {
     },
   });
 
-  const name = new URLSearchParams(search).get("name");
+  const name = "Presente Livro Liderança - 2021";
 
   const cpfMask = (value: string) => {
     return value
