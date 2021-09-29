@@ -21,6 +21,6 @@ export const buscaCpf = async (variables: BuscaCpfVariables): Promise<BuscaCpfRe
 };
 
 export const registraVoucher = async (variables: RegistraVoucherVariables): Promise<CheckinResponse> => {
-  const { data } = await getApi().post("/registra_voucher.php", variables);
+  const { data } = await getApi().post("/registra_legendarios.php", variables);
   return data;
 };
