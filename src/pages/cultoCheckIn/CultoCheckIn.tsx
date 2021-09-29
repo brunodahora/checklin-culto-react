@@ -34,7 +34,8 @@ const StyledCpfContainer = styled.div`
 `;
 
 export default function CultoCheckIn(): React.ReactElement {
-  const id = "262";
+  const id = "400";
+  const name = "Camiseta Legendários";
 
   const [result, setResult] = useState("");
   const [isCheckingVoucher, setIsCheckingVoucher] = useState(false);
@@ -70,8 +71,6 @@ export default function CultoCheckIn(): React.ReactElement {
       setIsCheckingVoucher(false);
     },
   });
-
-  const name = "Presente Livro Liderança - 2021";
 
   const cpfMask = (value: string) => {
     return value
