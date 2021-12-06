@@ -5,8 +5,12 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import Cultos from "./pages/cultos/Cultos";
-import CultoCheckIn from "./pages/cultoCheckIn/CultoCheckIn";
+import Locais from "./pages/locais/Locais";
+import Tipocheck from "./pages/locais/Tipocheck";
+import Check from "./pages/locais/Check";
+import PrivateRoute from "./pages/Utils/PrivateRoute";
+import Login from "./pages/locais/Login";
+import { getToken } from "./pages/Utils/Token";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +33,7 @@ const StyledContainer = styled(Container)`
 `;
 
 function App(): React.ReactElement {
+  const isAuthenticated = getToken() !== null;
   return (
     <ThemeProvider theme={responsiveFontSizes(theme)}>
       <main>
@@ -37,11 +42,17 @@ function App(): React.ReactElement {
             <ReactQueryDevtools initialIsOpen={false} />
             <Router>
               <Switch>
-                <Route path="/cultos/:id">
-                  <CultoCheckIn />
-                </Route>
+                <PrivateRoute path="/locais" isAuthenticated={isAuthenticated}>
+                  <Locais />
+                </PrivateRoute>
+                <PrivateRoute path="/check" isAuthenticated={isAuthenticated}>
+                  <Check />
+                </PrivateRoute>
+                <PrivateRoute path="/tipocheck" isAuthenticated={isAuthenticated}>
+                  <Tipocheck />
+                </PrivateRoute>
                 <Route path="/">
-                  <Cultos />
+                  <Login />
                 </Route>
               </Switch>
             </Router>

@@ -1,12 +1,12 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { Box, Typography } from "@material-ui/core";
-import { Cultos as CultosType } from "../../index.d";
-import CultosList from "./CultosList";
-import { buscaCultos } from "../../queries/api";
+import { Locais as LocaisType } from "../../index.d";
+import LocaisList from "./LocaisList";
+import { buscaLocais } from "../../queries/api";
 
-export default function Cultos(): React.ReactElement {
-  const { isLoading, error, data, isFetching } = useQuery<CultosType, Error>("cultos", buscaCultos);
+export default function Locais(): React.ReactElement {
+  const { isLoading, error, data, isFetching } = useQuery<LocaisType, Error>("locais", buscaLocais);
 
   const loading = isLoading || isFetching;
 
@@ -16,13 +16,13 @@ export default function Cultos(): React.ReactElement {
   return (
     <Box display="flex" flexDirection="column" flex={1} p={2} height="calc(var(--vh, 1vh) * 100 - 32px)">
       <Typography variant="h1" align="center" gutterBottom>
-        Cultos
+        Locais
       </Typography>
       <Typography variant="h5" component="h2" align="center" paragraph>
-        Selecione abaixo para qual culto quer fazer o check-in
+        Selecione abaixo um local para realizar o check-in/out
       </Typography>
       <Box overflow="auto" flex={1} display="flex" flexDirection="column" mt={2}>
-        <CultosList cultos={data} loading={loading} />
+        <LocaisList locais={data} loading={loading} />
       </Box>
     </Box>
   );

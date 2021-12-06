@@ -1,7 +1,7 @@
 {
-  "short_name": "Check-In Cultos",
-  "name": "Check-In Cultos",
-  "description": "Sistema de Check-in para cultos da PIB",
+  "short_name": "Check-In tdp",
+  "name": "Check-In turma de primeira",
+  "description": "Sistema de Check-in para crianças da PIB",
   "icons": [
     {
       "src": "favicon.ico",

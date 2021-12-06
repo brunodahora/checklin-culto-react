@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { Box, Card, CardContent, CircularProgress, Typography } from "@material-ui/core";
-import { Cultos as CultosType } from "../../index.d";
+import { Locais as LocaisType } from "../../index.d";
 
 const StyledLink = styled(Link)`
   flex: 1;
@@ -28,11 +28,12 @@ const StyledTypography = styled(Typography)`
 `;
 
 type Props = {
-  cultos: CultosType | undefined;
+  locais: LocaisType | undefined;
   loading?: boolean;
 };
 
-export default function CultosList({ cultos, loading = false }: Props): React.ReactElement {
+export default function LocaisList({ locais, loading = false }: Props): React.ReactElement {
+  const { id } = useParams<{ id: string }>();
   if (loading)
     return (
       <Box display="flex" flexDirection="column" flex={1} alignItems="center" justifyContent="center" mt={2}>
@@ -40,22 +41,22 @@ export default function CultosList({ cultos, loading = false }: Props): React.Re
       </Box>
     );
 
-  if (!cultos?.mensagem || !Object.keys(cultos.mensagem))
+  if (!locais?.mensagem || !Object.keys(locais.mensagem))
     return (
       <Box display="flex" flexDirection="column" flex={1} alignItems="center" justifyContent="center" mt={2}>
         <HighlightOffIcon fontSize="large" />
-        <StyledTypography variant="body1">Não existem cultos cadastrados para hoje.</StyledTypography>
+        <StyledTypography variant="body1">Nenhum local encontrado para realizar check in/out.</StyledTypography>
       </Box>
     );
 
   return (
     <>
-      {Object.keys(cultos.mensagem).map((key) => (
+      {Object.keys(locais.mensagem).map((key) => (
         <Box key={key} mb={2}>
           <Card>
             <StyledCardContent>
-              <StyledLink to={`/cultos/${key}?name=${cultos.mensagem[key]}`}>
-                <Typography variant="button">{cultos.mensagem[key]}</Typography>
+              <StyledLink to={`/check?id=${key}&name=${locais.mensagem[key]}&tipo=${id}`}>
+                <Typography variant="button">{locais.mensagem[key]}</Typography>
               </StyledLink>
             </StyledCardContent>
           </Card>
@@ -64,6 +65,6 @@ export default function CultosList({ cultos, loading = false }: Props): React.Re
     </>
   );
 }
-CultosList.defaultProps = {
+LocaisList.defaultProps = {
   loading: false,
 };

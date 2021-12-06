@@ -5,17 +5,11 @@ import styled from "styled-components";
 import QrReader from "react-qr-reader";
 import { red, green } from "@material-ui/core/colors";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { Box, Button, CircularProgress, TextField, Typography } from "@material-ui/core";
+import { Box, CircularProgress, Typography } from "@material-ui/core";
 import Result from "./Result";
-import { buscaCpf, registraVoucher } from "../../queries/api";
+import { registraVoucherCrianca } from "../../queries/api";
 
-import {
-  BuscaCpfResponse,
-  BuscaCpfVariables,
-  CheckinResponse,
-  RegistraVoucherVariables,
-  ErrorResponse,
-} from "../../index.d";
+import { CheckinResponse, RegistraVoucherCriancaVariables, ErrorResponse } from "../../index.d";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -26,24 +20,15 @@ const StyledLink = styled(Link)`
   left: 16px;
 `;
 
-const StyledCpfContainer = styled.div`
-  background-color: whitesmoke;
-  display: flex;
-  flex-direction: column;
-  margin-top: 8px;
-`;
-
-export default function CultoCheckIn(): React.ReactElement {
+export default function Check(): React.ReactElement {
   const { id } = useParams<{ id: string }>();
   const { search } = useLocation();
 
   const [result, setResult] = useState("");
   const [isCheckingVoucher, setIsCheckingVoucher] = useState(false);
-  const [cpfError, setCpfError] = useState("");
-  const [cpf, setCpf] = useState("");
 
-  const registraVoucherMutation = useMutation<CheckinResponse, ErrorResponse, RegistraVoucherVariables>(
-    registraVoucher,
+  const registraVoucherMutation = useMutation<CheckinResponse, ErrorResponse, RegistraVoucherCriancaVariables>(
+    registraVoucherCrianca,
     {
       onSuccess: (data) => {
         setResult(data.mensagem);
@@ -57,69 +42,33 @@ export default function CultoCheckIn(): React.ReactElement {
       },
     },
   );
-  const buscaCpfMutation = useMutation<BuscaCpfResponse, ErrorResponse, BuscaCpfVariables>(buscaCpf, {
-    onSuccess: (data) => {
-      registraVoucherMutation.mutate({
-        culto_id: id,
-        hash: `${data.mensagem}-${id}`,
-      });
-    },
-    onError: (error) => {
-      // eslint-disable-next-line no-console
-      console.error(error);
-      if (error?.response?.data?.mensagem) setResult(error.response.data.mensagem);
-      setIsCheckingVoucher(false);
-    },
-  });
 
   const name = new URLSearchParams(search).get("name");
-
-  const cpfMask = (value: string) => {
-    return value
-      .replace(/\D/g, "")
-      .replace(/(\d{3})(\d)/, "$1.$2")
-      .replace(/(\d{3})(\d)/, "$1.$2")
-      .replace(/(\d{3})(\d{1,2})/, "$1-$2")
-      .replace(/(-\d{2})\d+?$/, "$1");
-  };
+  const idlocal = new URLSearchParams(search).get("id");
+  const tipoCheck = new URLSearchParams(search).get("tipo");
 
   const handleScan = (data: string | null) => {
-    if (data) {
+    if (data && idlocal && tipoCheck) {
       setIsCheckingVoucher(true);
       registraVoucherMutation.mutate({
-        culto_id: id,
+        local_id: idlocal,
         hash: data,
+        tipo: tipoCheck,
       });
     }
   };
   // eslint-disable-next-line no-console
   const handleError = (err: Error) => console.error(err);
 
-  const checkCpf = () => {
-    if (cpf.length < 14) {
-      setCpfError("CPF Inválido");
-      return;
-    }
-    setIsCheckingVoucher(true);
-    buscaCpfMutation.mutate({
-      culto_id: id,
-      cpf,
-    });
-  };
-
-  const onChangeCpf = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCpf(cpfMask(e.currentTarget.value));
-    setCpfError("");
-  };
-
   const reset = () => {
     setResult("");
-    setCpf("");
   };
 
   const getColor = () => {
     if (!result) return undefined;
-    if (result.toLowerCase().includes("confirmado")) return green[900];
+    if (result.toLowerCase().includes("checkin")) return green[900];
+    if (result.toLowerCase().includes("checkout")) return green[900];
+    if (result.toLowerCase().includes("processo")) return red[900];
     return red[900];
   };
 
@@ -131,11 +80,11 @@ export default function CultoCheckIn(): React.ReactElement {
             <ArrowBackIcon fontSize="large" />
           </StyledLink>
           <Typography variant="h3" component="h1" gutterBottom>
-            Check-in
+            Check-in/out
           </Typography>
         </Box>
         <Typography variant="subtitle1" component="span" paragraph>
-          Você irá fazer check-in para o culto
+          Você irá fazer check-in/out para a criança
           <br />
           <b>{name || id}</b>
         </Typography>
@@ -167,31 +116,6 @@ export default function CultoCheckIn(): React.ReactElement {
         {!isCheckingVoucher && result && <Result result={result} reset={reset} />}
         {isCheckingVoucher && !result && <CircularProgress color="primary" size={64} />}
       </Box>
-      {!result && (
-        <StyledCpfContainer>
-          <Box mb={2}>
-            <TextField
-              label="Preencha este campo para pesquisar por CPF"
-              placeholder="123.456.789-09"
-              value={cpf}
-              onChange={onChangeCpf}
-              inputProps={{
-                maxLength: 14,
-                "aria-label": "Preencha este campo para pesquisar por CPF",
-                inputmode: "numeric",
-              }}
-              variant="outlined"
-              error={!!cpfError}
-              helperText={cpfError}
-              color="secondary"
-              fullWidth
-            />
-          </Box>
-          <Button variant="contained" color="primary" onClick={checkCpf} size="large">
-            Pesquisar
-          </Button>
-        </StyledCpfContainer>
-      )}
     </Box>
   );
 }
